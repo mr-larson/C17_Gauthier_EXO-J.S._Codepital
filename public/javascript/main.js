@@ -1,5 +1,6 @@
 //-----------------  Exo CodePital  -----------------
 //---------- class -------------- 
+
 //patient
 class Patient{
     constructor(nom, maladie, argent, traitement, etatSante){
@@ -10,37 +11,40 @@ class Patient{
         this.etatSante = etatSante
         this.poche = []
         this.goTo = (depart, destination) => {
-            depart.personnes.splice (depart.personnes.indexOf(this),1)
-            destination.personnes.push(this)
+            destination.Patient.push(this)
+            depart.Patient.splice (depart.Patient.indexOf(this),1)
             console.log (`${this.nom} va à ${destination.nom}`)
         }
-        this.paye = (traitement) => {
-            this.argent -= traitement.prix
+        this.paye = (docteur) => {
+            this.argent -= 50
+            docteur.argent += 50
+            console.log (`${this.nom} paie 50€ à ${docteur.nom}`)
         }
-        this.mort = (etatSante) => {
-            if (etatSante == "mort"){
-                depart.personnes.splice (depart.personnes.indexOf(this),1)
-                destination.personnes.push(lieu.cimetiere)
-                console.log (`patient ${this.nom} est envoyer au cimetière`)
+        this.takeCare = () => {
+            if(Lieux.pharmacie.indexOf(this) != -1){
+                if(this.argent >= this.traitement){
+                    console.log(`${this.nom} a assez d'argent pour son traitement `)
+                    this.etatSante = "Bonne santé"
+                    this.argent -= this.traitement
+                    this.goTo(Lieux.pharmacie, Lieux.maison)
+                } else {
+                    console.log(`${this.nom}  n'a pas assez d'argent pour son traitement `)
+                    this.etatSante = "Mort"
+                    this.goTo(Lieux.pharmacie, Lieux.cimetiere)
+                }
+                console.log(`L'état du patient est: ${this.etatSante}.`)
+            } else {
+                console.log("Le patient n'est pas à la Pharmacie.")
             }
         }
-        
     }
 }
-//chat
-class Chat{
-    constructor(sphynx){
-        this.sphynx = sphynx
-        setInterval(() =>{
-            console.log ("miaouss")
-        }
-        , 2000)
-    }
-}
+
 //lieux
 class Lieux{
     constructor(nom, personne){
-        
+        this.nom = nom
+        this.personne = personne
     }
 }
 
@@ -48,15 +52,26 @@ class Lieux{
 
 //Patient
 let marcus = new Patient 
-("Marcus","salleD", "mal indenté", 100, "", "malade", [])
+("Marcus","salleAttente", "mal indenté", 100, "", "malade", [])
 let optimus = new Patient 
-("Optimus","maison", "Unsave", 200, "", "malade", [])
+("Optimus","salleAttente", "Unsave", 200, "", "malade", [])
 let sangoku = new Patient 
-("Sangoku","maison", "404", 80, "", "malade", [])
+("Sangoku","salleAttente", "404", 80, "", "malade", [])
 let darthVader = new Patient 
-("DarthVader","maison", "azmatique", 110, "", "malade", [])
+("DarthVader","SalleAttente", "azmatique", 110, "", "malade", [])
 let semicolon = new Patient 
-("semicolon","maison", "syntaxError", 100, "", "malade", [])
+("semicolon","salleAttente", "syntaxError", 100, "", "malade", [])
+
+//le chat
+let chat = {
+    nom: "chat",
+    miauler(){
+        setInterval(() =>{
+            console.log ("miaouss")
+        }
+        , 2000)
+    }
+}
 
 //Docteur
 let doctor = {
@@ -66,17 +81,33 @@ let doctor = {
     salleDattente: [],
 }
 
+//Localisation Lieux
+let lieux = {
+    pharmacie: [],
+    cimetiere: [],
+    rue: []
+}
+
 //Lieux
-let pharmacie = new Lieu 
+let pharmacie = new Lieux
 ("pharmacie")
-let salleDattente = new Lieu
+let salleAttente = new Lieux
 ("salleAttente")
-let cabinet = new Lieu
+let cabinet = new Lieux
 ("cabinet")
-let cimetiere = new Lieu
+let cimetiere = new Lieux
 ("cimetière")
-let maison = new Lieu
+let maison = new Lieux
 ("maison")
 
-    
+//traitement
+let traitement = {
+    "ctrl+maj+f": 60,
+    "saveOnFocusChange": 100,
+    "CheckLinkRelation": 35,
+    "Ventoline": 40,
+    "f12+doc": 20,
+}   
 
+//------------ Console.log -------------
+console.log ()
