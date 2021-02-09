@@ -2,9 +2,8 @@
 //---------- class -------------- 
 //patient
 class Patient{
-    constructor(nom, lieu, maladie, argent, traitement, etatSante){
+    constructor(nom, maladie, argent, traitement, etatSante){
         this.nom = nom
-        this.lieu = lieu
         this.maladie = maladie
         this.argent = argent
         this.traitement = traitement
@@ -29,7 +28,7 @@ class Patient{
     }
 }
 //chat
-class chat{
+class Chat{
     constructor(sphynx){
         this.sphynx = sphynx
         setInterval(() =>{
@@ -38,32 +37,46 @@ class chat{
         , 2000)
     }
 }
-
-//----------- instance -----------
-//patient
-let marcus = new Patient 
-("Marcus","maison", "mal indenté", 100, "", "malade", [])
-let optimus = new Patient 
-("Optimus","", "Unsave", 200, "", "malade", [])
-let sangoku = new Patient 
-("Sangoku","salle d'attente", "404", 80, "", "malade", [])
-let darthVader = new Patient 
-("DarthVader","salle d'attente", "azmatique", 110, "", "malade", [])
-let semicolon = new Patient 
-("semicolon","salle d'attente", "syntaxError", 100, "", "malade", [])
-
-//docteur
-let doctor = {
-    nom: "Docteur Maboul",
-    argent: 100,
-    cabinet: [],
-    salleDattente: []
+//lieux
+class Lieux{
+    constructor(nom, personne){
+        
+    }
 }
 
-/* let lieu = new Lieu { 
-    salleAttente:[],
-    cabinet:[],
-    pharmacie:[],
-    cimetiere:[],
-    maison:[]
-} */
+//----------- instance -----------
+
+//Patient
+let marcus = new Patient 
+("Marcus","salleD", "mal indenté", 100, "", "malade", [])
+let optimus = new Patient 
+("Optimus","maison", "Unsave", 200, "", "malade", [])
+let sangoku = new Patient 
+("Sangoku","maison", "404", 80, "", "malade", [])
+let darthVader = new Patient 
+("DarthVader","maison", "azmatique", 110, "", "malade", [])
+let semicolon = new Patient 
+("semicolon","maison", "syntaxError", 100, "", "malade", [])
+
+//Docteur
+let doctor = {
+    nom: "Docteur Mahboul",
+    argent: 100,
+    cabinet: [chat],
+    salleDattente: [],
+}
+
+//Lieux
+let pharmacie = new Lieu 
+("pharmacie")
+let salleDattente = new Lieu
+("salleAttente")
+let cabinet = new Lieu
+("cabinet")
+let cimetiere = new Lieu
+("cimetière")
+let maison = new Lieu
+("maison")
+
+    
+
