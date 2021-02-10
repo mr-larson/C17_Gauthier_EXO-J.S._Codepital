@@ -3,38 +3,34 @@
 
 //patient
 class Patient{
-    constructor(nom, maladie, argent, traitement, etatSante){
+    constructor(nom, maladie, argent, etatSante){
         this.nom = nom
         this.maladie = maladie
         this.argent = argent
         this.etatSante = etatSante
         this.poche = []
         this.goTo = (depart, destination) => {
-            destination.patient.push(this)
-            depart.patient.splice (depart.patient.indexOf(this),1)
+            destination.personne.push(this)
+            depart.personne.splice (depart.personne.indexOf(this),1)
             console.log (`${this.nom} va à ${destination.nom}`)
         }
-        this.paye = (docteur) => {
-            this.argent -= 50
-            docteur.argent += 50
-            console.log (`${this.nom} paie 50€ à ${docteur.nom}`)
-        }
-        this.takeCare = () => {
-            if(Lieux.pharmacie.indexOf(this) != -1){
-                if(this.argent >= this.traitement){
-                    console.log(`${this.nom} a assez d'argent pour son traitement `)
-                    this.etatSante = "Bonne santé"
-                    this.argent -= this.traitement
-                    this.goTo(Lieux.pharmacie, Lieux.maison)
-                } else {
-                    console.log(`${this.nom}  n'a pas assez d'argent pour son traitement `)
-                    this.etatSante = "Mort"
-                    this.goTo(Lieux.pharmacie, Lieux.cimetiere)
-                }
-                console.log(`L'état du patient est: ${this.etatSante}.`)
-            } else {
-                console.log("Le patient n'est pas à la Pharmacie.")
+        this.paye = (pharmacie) => {
+            if(this.argent >= this.traitement.prix){
+                this.argent -= this.traitement.prix
+                pharmacie.argent += this.traitement.prix
+                console.log (`${this.nom} paie ${this.traitement.prix} à ${pharmacie.nom}`)
+                this.goTo(pharmacie.personne, maison.personne)
+                this.etatSante = "Bonne santé"
             }
+            else if(this.argent < this.traitement.prix){
+                this.goTo(pharmacie.personne, cimetiere.personne)
+                this.etatSante = "Mort"
+            }  
+        }
+        this.takeCare = (doctor) => {
+            this.argent -= 50
+            doctor.argent += 50
+            console.log (`${this.nom} paie 50€ à ${doctor.nom}`)
         }
     }
 }
@@ -79,6 +75,13 @@ let chat = {
     }
 }
 
+//traitement
+let t1 = new Traitement ("ctrl+maj+f", 60)
+let t2 = new Traitement ("saveOnFocusChange", 100)
+let t3 = new Traitement ("CheckLinkRelation", 35)
+let t4 = new Traitement ("Ventoline", 40)
+let t5 = new Traitement ("F12+doc", 20)
+
 //Docteur
 let doctor = {
     nom: "Docteur Mahboul",
@@ -100,20 +103,20 @@ let doctor = {
     },
     diagnostique(malade){
         switch (malade.maladie){
-            case "Mal indente":
-                malade.traitement = ctrl
+            case "mal indente":
+                malade.traitement = t1
                 break
             case "unsave":
-                malade.traitement = save
+                malade.traitement = t2
                 break
             case "404":
-                malade.traitement = check
+                malade.traitement = t3
                 break
             case "azmatique":
-                malade.traitement = vento
+                malade.traitement = t4
                 break
             case "syntaxError":
-                malade.traitement = f12
+                malade.traitement = t5
                 break
         }
         console.log (`${malade.nom} est malade, il a ${malade.maladie}, `)
@@ -128,21 +131,24 @@ let cimetiere = new Lieux
 let maison = new Lieux
 ("maison", [])
 
-//traitement
-let t1 = new Traitement ("ctrl+maj+f", 60)
-let t2 = new Traitement ("saveOnFocusChange", 100)
-let t3 = new Traitement ("CheckLinkRelation", 35)
-let t4 = new Traitement ("Ventoline", 40)
-let t5 = new Traitement ("F12+doc", 20)
 
 
 
 //------------ Console.log -------------
+
+//consultation
 console.log (p1, p2, p3, p4, p5)
 doctor.patientIn(p1)
 console.log(doctor.salleAttente.personne)
 console.log(p1)
 doctor.diagnostique(p1)
+p1.takeCare(doctor)
 console.log(p1)
 doctor.patientOut(p1)
 console.log(doctor.salleAttente.personne)
+
+//achat de medicament
+p1.goTo(doctor.salleAttente, pharmacie )
+console.log(doctor.salleAttente.personne)
+p1.paye(pharmacie)
+
