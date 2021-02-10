@@ -7,12 +7,11 @@ class Patient{
         this.nom = nom
         this.maladie = maladie
         this.argent = argent
-        this.traitement = traitement
         this.etatSante = etatSante
         this.poche = []
         this.goTo = (depart, destination) => {
-            destination.Patient.push(this)
-            depart.Patient.splice (depart.Patient.indexOf(this),1)
+            destination.patient.push(this)
+            depart.patient.splice (depart.patient.indexOf(this),1)
             console.log (`${this.nom} va à ${destination.nom}`)
         }
         this.paye = (docteur) => {
@@ -48,19 +47,26 @@ class Lieux{
     }
 }
 
+//traitement
+class Traitement{
+    constructor(nom,prix){
+        this.nom = nom
+        this.prix = prix
+    }
+}
 //----------- instance -----------
 
 //Patient
 let p1 = new Patient 
-("Marcus","maison", "mal indenté", 100, "", "malade", [])
+("Marcus", "mal indente", 100, "", "malade", [])
 let p2 = new Patient 
-("Optimus","maison", "Unsave", 200, "", "malade", [])
+("Optimus", "Unsave", 200, "", "malade", [])
 let p3 = new Patient 
-("Sangoku","maison", "404", 80, "", "malade", [])
+("Sangoku", "404", 80, "", "malade", [])
 let p4 = new Patient 
-("DarthVader","maison", "azmatique", 110, "", "malade", [])
-let P5 = new Patient 
-("semicolon","maison", "syntaxError", 100, "", "malade", [])
+("DarthVader", "azmatique", 110, "", "malade", [])
+let p5 = new Patient 
+("semicolon", "syntaxError", 100, "", "malade", [])
 
 //le chat
 let chat = {
@@ -78,40 +84,65 @@ let doctor = {
     nom: "Docteur Mahboul",
     argent: 100,
     cabinet: [chat],
-    salleAttente: [],
-}
-
-//Localisation Lieux
-let lieux = {
-    pharmacie: [],
-    cimetiere: [],
-    maison: []
+    salleAttente: {
+        nom: "salle d'attente",
+        personne:[p1,p2,p3,p4,p5]
+    },
+    patientIn(malade){
+        this.cabinet.push(malade)
+        this.salleAttente.personne.splice(this.salleAttente.personne.indexOf(malade.nom),1)
+        console.log (`${this.nom} fait entrer ${malade.nom} dans le cabinet`)
+    },
+    patientOut(malade){
+        this.salleAttente.personne.push(malade)
+        this.cabinet.splice(this.cabinet.indexOf(malade))
+        console.log (`${this.nom} fait sortir ${malade.nom} du cabinet`)
+    },
+    diagnostique(malade){
+        switch (malade.maladie){
+            case "Mal indente":
+                malade.traitement = ctrl
+                break
+            case "unsave":
+                malade.traitement = save
+                break
+            case "404":
+                malade.traitement = check
+                break
+            case "azmatique":
+                malade.traitement = vento
+                break
+            case "syntaxError":
+                malade.traitement = f12
+                break
+        }
+        console.log (`${malade.nom} est malade, il a ${malade.maladie}, `)
+    }
 }
 
 //Lieux
 let pharmacie = new Lieux
-("pharmacie")
-let salleAttente = new Lieux
-("salleAttente")
-let cabinet = new Lieux
-("cabinet")
+("pharmacie", [])
 let cimetiere = new Lieux
-("cimetière")
+("cimetière", [])
 let maison = new Lieux
-("maison")
+("maison", [])
 
 //traitement
-let traitement = {
-    "ctrl+maj+f": 60,
-    "saveOnFocusChange": 100,
-    "CheckLinkRelation": 35,
-    "Ventoline": 40,
-    "f12+doc": 20,
-}   
+let t1 = new Traitement ("ctrl+maj+f", 60)
+let t2 = new Traitement ("saveOnFocusChange", 100)
+let t3 = new Traitement ("CheckLinkRelation", 35)
+let t4 = new Traitement ("Ventoline", 40)
+let t5 = new Traitement ("F12+doc", 20)
+
+
 
 //------------ Console.log -------------
-console.log (p1, p2, p3,p4,p5)
-console.log (doctor)
-console.log (chat)
-
-console.log(Lieux)
+console.log (p1, p2, p3, p4, p5)
+doctor.patientIn(p1)
+console.log(doctor.salleAttente.personne)
+console.log(p1)
+doctor.diagnostique(p1)
+console.log(p1)
+doctor.patientOut(p1)
+console.log(doctor.salleAttente.personne)
