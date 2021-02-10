@@ -50,19 +50,20 @@ class Traitement{
         this.prix = prix
     }
 }
+
 //----------- instance -----------
 
 //Patient
 let p1 = new Patient 
-("Marcus", "mal indente", 100, "", "malade", [])
+("Marcus", "mal indente", 100, "malade", [])
 let p2 = new Patient 
-("Optimus", "Unsave", 200, "", "malade", [])
+("Optimus", "Unsave", 200, "malade", [])
 let p3 = new Patient 
-("Sangoku", "404", 80, "", "malade", [])
+("Sangoku", "404", 80, "malade", [])
 let p4 = new Patient 
-("DarthVader", "azmatique", 110, "", "malade", [])
+("DarthVader", "azmatique", 110, "malade", [])
 let p5 = new Patient 
-("semicolon", "syntaxError", 100, "", "malade", [])
+("semicolon", "syntaxError", 100, "malade", [])
 
 //le chat
 let chat = {
@@ -131,24 +132,16 @@ let cimetiere = new Lieux
 let maison = new Lieux
 ("maison", [])
 
-
-
-
 //------------ Console.log -------------
-
-//consultation
-console.log (p1, p2, p3, p4, p5)
-doctor.patientIn(p1)
-console.log(doctor.salleAttente.personne)
-console.log(p1)
-doctor.diagnostique(p1)
-p1.takeCare(doctor)
-console.log(p1)
-doctor.patientOut(p1)
-console.log(doctor.salleAttente.personne)
-
-//achat de medicament
-p1.goTo(doctor.salleAttente, pharmacie )
-console.log(doctor.salleAttente.personne)
-p1.paye(pharmacie)
-
+do {
+    //visite docteur
+    let membre = doctor.salleAttente.personne[0]
+    doctor.patientIn(membre)
+    doctor.diagnostique(membre)
+    p1.takeCare(doctor)
+    doctor.patientOut(membre)
+    membre.goTo(doctor.salleAttente, pharmacie )
+    membre.paye(pharmacie)
+}
+while (doctor.salleAttente.personne.length > 0) {  
+}
