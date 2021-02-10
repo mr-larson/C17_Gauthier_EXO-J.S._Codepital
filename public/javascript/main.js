@@ -51,16 +51,16 @@ class Lieux{
 //----------- instance -----------
 
 //Patient
-let marcus = new Patient 
-("Marcus","salleAttente", "mal indenté", 100, "", "malade", [])
-let optimus = new Patient 
-("Optimus","salleAttente", "Unsave", 200, "", "malade", [])
-let sangoku = new Patient 
-("Sangoku","salleAttente", "404", 80, "", "malade", [])
-let darthVader = new Patient 
-("DarthVader","SalleAttente", "azmatique", 110, "", "malade", [])
-let semicolon = new Patient 
-("semicolon","salleAttente", "syntaxError", 100, "", "malade", [])
+let p1 = new Patient 
+("Marcus","maison", "mal indenté", 100, "", "malade", [])
+let p2 = new Patient 
+("Optimus","maison", "Unsave", 200, "", "malade", [])
+let p3 = new Patient 
+("Sangoku","maison", "404", 80, "", "malade", [])
+let p4 = new Patient 
+("DarthVader","maison", "azmatique", 110, "", "malade", [])
+let P5 = new Patient 
+("semicolon","maison", "syntaxError", 100, "", "malade", [])
 
 //le chat
 let chat = {
@@ -78,14 +78,14 @@ let doctor = {
     nom: "Docteur Mahboul",
     argent: 100,
     cabinet: [chat],
-    salleDattente: [],
+    salleAttente: [],
 }
 
 //Localisation Lieux
 let lieux = {
     pharmacie: [],
     cimetiere: [],
-    rue: []
+    maison: []
 }
 
 //Lieux
@@ -110,4 +110,8 @@ let traitement = {
 }   
 
 //------------ Console.log -------------
-console.log ()
+console.log (p1, p2, p3,p4,p5)
+console.log (doctor)
+console.log (chat)
+
+console.log(Lieux)
