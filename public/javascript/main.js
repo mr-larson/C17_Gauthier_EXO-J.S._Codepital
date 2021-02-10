@@ -3,9 +3,10 @@
 
 //patient
 class Patient{
-    constructor(nom, maladie, argent, etatSante){
+    constructor(nom, maladie, traitement, argent, etatSante){
         this.nom = nom
         this.maladie = maladie
+        this.traitement = traitement
         this.argent = argent
         this.etatSante = etatSante
         this.poche = []
@@ -14,16 +15,15 @@ class Patient{
             depart.personne.splice (depart.personne.indexOf(this),1)
             console.log (`${this.nom} va à ${destination.nom}`)
         }
-        this.paye = (pharmacie) => {
-            if(this.argent >= this.traitement.prix){
-                this.argent -= this.traitement.prix
-                pharmacie.argent += this.traitement.prix
-                console.log (`${this.nom} paie ${this.traitement.prix} à ${pharmacie.nom}`)
-                this.goTo(pharmacie.personne, maison.personne)
+        this.paye = (patient) => {
+            if(this.argent >= traitement.prix){
+                 console.log (`${this.nom} paie ${traitement.prix} à ${pharmacie.nom}`)
+                this.argent -= traitement.prix
+                pharmacie.personne.push(maison.personne)
                 this.etatSante = "Bonne santé"
             }
             else if(this.argent < this.traitement.prix){
-                this.goTo(pharmacie.personne, cimetiere.personne)
+                pharmacie.personne.push(cimetiere.personne)
                 this.etatSante = "Mort"
             }  
         }
@@ -53,17 +53,24 @@ class Traitement{
 
 //----------- instance -----------
 
+//traitement
+let t1 = new Traitement ("ctrl+maj+f", 60)
+let t2 = new Traitement ("saveOnFocusChange", 100)
+let t3 = new Traitement ("CheckLinkRelation", 35)
+let t4 = new Traitement ("Ventoline", 40)
+let t5 = new Traitement ("F12+doc", 20)
+
 //Patient
 let p1 = new Patient 
-("Marcus", "mal indente", 100, "malade", [])
+("Marcus", "mal indente",t1 , 100, "malade", [])
 let p2 = new Patient 
-("Optimus", "Unsave", 200, "malade", [])
+("Optimus", "Unsave",t2, 200, "malade", [])
 let p3 = new Patient 
-("Sangoku", "404", 80, "malade", [])
+("Sangoku", "404",t3, 80, "malade", [])
 let p4 = new Patient 
-("DarthVader", "azmatique", 110, "malade", [])
+("DarthVader", "azmatique",t4, 110, "malade", [])
 let p5 = new Patient 
-("semicolon", "syntaxError", 100, "malade", [])
+("semicolon", "syntaxError",t5, 100, "malade", [])
 
 //le chat
 let chat = {
@@ -76,12 +83,6 @@ let chat = {
     }
 }
 
-//traitement
-let t1 = new Traitement ("ctrl+maj+f", 60)
-let t2 = new Traitement ("saveOnFocusChange", 100)
-let t3 = new Traitement ("CheckLinkRelation", 35)
-let t4 = new Traitement ("Ventoline", 40)
-let t5 = new Traitement ("F12+doc", 20)
 
 //Docteur
 let doctor = {
@@ -133,15 +134,18 @@ let maison = new Lieux
 ("maison", [])
 
 //------------ Console.log -------------
+//visite docteur
 do {
-    //visite docteur
     let membre = doctor.salleAttente.personne[0]
     doctor.patientIn(membre)
     doctor.diagnostique(membre)
     p1.takeCare(doctor)
     doctor.patientOut(membre)
     membre.goTo(doctor.salleAttente, pharmacie )
-    membre.paye(pharmacie)
+    membre.paye()
+    console.log(membre.etatSante)
+    console.log(membre)
 }
-while (doctor.salleAttente.personne.length > 0) {  
+while (doctor.salleAttente.personne.length > 0) {    
+    chat.miauler(doctor.salleAttente)
 }
